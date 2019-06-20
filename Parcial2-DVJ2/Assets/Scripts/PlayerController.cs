@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         MovementInput = Input.GetAxis("Vertical");
-        RotationInput = - Input.GetAxisRaw("Horizontal");
+        RotationInput = -Input.GetAxisRaw("Horizontal");
 
         if (MovementInput < 0)
             MovementInput = 0;
@@ -33,17 +33,28 @@ public class PlayerController : MonoBehaviour
             PlayerRigidody.AddTorque(RotationInput * TorqueMultiplier);
         else
             PlayerRigidody.angularVelocity = 0;
-        
-        Vector3 EulerRotation = transform.eulerAngles;
-        if (EulerRotation.z > MaxLeftRotation && EulerRotation.z < HalfRotation)
-            EulerRotation.z = MaxLeftRotation;
-        else if (EulerRotation.z < MaxRightRotation && EulerRotation.z > HalfRotation)
-            EulerRotation.z = MaxRightRotation;
-        transform.eulerAngles = EulerRotation;
+
+        CheckRotation();
     }
 
     void Update()
     {
         
+    }
+
+    void CheckRotation()
+    {
+        Vector3 EulerRotation = transform.eulerAngles;
+        if (EulerRotation.z > MaxLeftRotation && EulerRotation.z < HalfRotation)
+        {
+            EulerRotation.z = MaxLeftRotation;
+            PlayerRigidody.angularVelocity = 0;
+        }
+        else if (EulerRotation.z < MaxRightRotation && EulerRotation.z > HalfRotation)
+        {
+            EulerRotation.z = MaxRightRotation;
+            PlayerRigidody.angularVelocity = 0;
+        }
+        transform.eulerAngles = EulerRotation;
     }
 }
