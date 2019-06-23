@@ -16,8 +16,20 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem Particles;
 
     public LayerMask RaycastLayer;
-    public float RayDistance;
+    float RayDistance;
     float LandingRotationLimit = 10;
+
+    public int MaxFuel;
+    public int Fuel;
+    public float Altitude;
+    public float VerticalSpeed;
+    public float HorizontalSpeed;
+
+    public LevelGenerator Terrain;
+
+    float MinHeight;
+    float FuelTimer;
+    float TimeToLoseFuel = 0.1f;
 
     private void Start()
     {
@@ -25,6 +37,9 @@ public class PlayerController : MonoBehaviour
         Particles.Stop();
         RayDistance = GetComponent<Collider2D>().bounds.extents.y;
         RayDistance += RayDistance / 4;
+        MinHeight = Terrain.MinHeight;
+        FuelTimer = 0;
+        Fuel = MaxFuel;
     }
 
     private void FixedUpdate()
@@ -55,6 +70,18 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Debug.DrawRay(transform.position, -transform.up * RayDistance);
+        Altitude = transform.position.y - MinHeight;
+        VerticalSpeed = PlayerRigidody.velocity.y;
+        HorizontalSpeed = PlayerRigidody.velocity.x;
+        Altitude *= 100;
+        VerticalSpeed *= 100;
+        HorizontalSpeed *= 100;
+        FuelTimer += Time.deltaTime;
+        if(FuelTimer>=TimeToLoseFuel)
+        {
+            FuelTimer = 0;
+            Fuel--;
+        }
     }
 
     void CheckRotation()

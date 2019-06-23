@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelCreator : MonoBehaviour
+public class LevelGenerator : MonoBehaviour
 {
     Bounds LevelBounds;
     const int LevelDistance = 100;
     LineRenderer LineRend;
     EdgeCollider2D EdgeCollider;
     
-    int MaxHeight = 0;
-    int MinHeight = -3;
+    public int MaxHeight = 0;
+    public int MinHeight = -3;
     float MaxWidth;
     float MinWidth;
     int WidthMultiplier = 4;
