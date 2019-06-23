@@ -13,10 +13,12 @@ public class PlayerController : MonoBehaviour
     float MovementInput;
     float RotationInput;
     Rigidbody2D PlayerRigidody;
+    public ParticleSystem Particles;
 
     private void Start()
     {
         PlayerRigidody = GetComponent<Rigidbody2D>();
+        Particles.Stop();
     }
 
     private void FixedUpdate()
@@ -24,8 +26,15 @@ public class PlayerController : MonoBehaviour
         MovementInput = Input.GetAxis("Vertical");
         RotationInput = -Input.GetAxisRaw("Horizontal");
 
-        if (MovementInput < 0)
+        if (MovementInput <= 0)
+        {
             MovementInput = 0;
+            Particles.Stop();
+        }
+        else
+        {
+            Particles.Play();
+        }
 
         PlayerRigidody.AddRelativeForce(Vector2.up * ForceMultiplier * MovementInput);
 
