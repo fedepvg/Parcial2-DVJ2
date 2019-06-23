@@ -9714,7 +9714,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119137798}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.23, y: 1.68, z: 0}
+  m_LocalPosition: {x: -4.81, y: 1.68, z: 0}
   m_LocalScale: {x: 1.3507, y: 1.3507, z: 1.3507}
   m_Children:
   - {fileID: 390441433}
@@ -9736,6 +9736,10 @@ MonoBehaviour:
   ForceMultiplier: 0.2
   TorqueMultiplier: 0.05
   Particles: {fileID: 390441435}
+  RaycastLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  RayDistance: 0
 --- !u!1 &1890097632
 GameObject:
   m_ObjectHideFlags: 0
@@ -9748,7 +9752,7 @@ GameObject:
   - component: {fileID: 1890097634}
   - component: {fileID: 1890097633}
   - component: {fileID: 1890097636}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LevelCreator
   m_TagString: Untagged
   m_Icon: {fileID: 0}

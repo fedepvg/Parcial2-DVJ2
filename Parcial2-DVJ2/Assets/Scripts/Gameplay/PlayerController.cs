@@ -15,10 +15,16 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D PlayerRigidody;
     public ParticleSystem Particles;
 
+    public LayerMask RaycastLayer;
+    public float RayDistance;
+    float LandingRotationLimit = 10;
+
     private void Start()
     {
         PlayerRigidody = GetComponent<Rigidbody2D>();
         Particles.Stop();
+        RayDistance = GetComponent<Collider2D>().bounds.extents.y;
+        RayDistance += RayDistance / 4;
     }
 
     private void FixedUpdate()
@@ -48,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        
+        Debug.DrawRay(transform.position, -transform.up * RayDistance);
     }
 
     void CheckRotation()
@@ -65,5 +71,21 @@ public class PlayerController : MonoBehaviour
             PlayerRigidody.angularVelocity = 0;
         }
         transform.eulerAngles = EulerRotation;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up, RayDistance,RaycastLayer);
+        if(hit)
+        {
+            if (transform.eulerAngles.z < LandingRotationLimit && transform.eulerAngles.z > -LandingRotationLimit)
+                Debug.Log(hit.transform.name);
+            else
+                Debug.Log("Lose");
+        }
+        else
+        {
+            Debug.Log("Lose");
+        }
     }
 }
