@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public LayerMask RaycastLayer;
     float RayDistance;
     float LandingRotationLimit = 10;
+    public float MaxVerticalSpeedOnLanding;
+    public float MaxHorizontalSpeedOnLanding;
 
     public int MaxFuel;
     public int Fuel;
@@ -47,6 +49,8 @@ public class PlayerController : MonoBehaviour
         MovementInput = Input.GetAxis("Vertical");
         RotationInput = -Input.GetAxisRaw("Horizontal");
 
+
+        FuelTimer += Time.fixedDeltaTime;
         if (MovementInput <= 0)
         {
             MovementInput = 0;
@@ -54,6 +58,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            if (FuelTimer >= TimeToLoseFuel)
+            {
+                FuelTimer = 0;
+                Fuel--;
+            }
             Particles.Play();
         }
 
@@ -76,12 +85,6 @@ public class PlayerController : MonoBehaviour
         Altitude *= 100;
         VerticalSpeed *= 100;
         HorizontalSpeed *= 100;
-        FuelTimer += Time.deltaTime;
-        if(FuelTimer>=TimeToLoseFuel)
-        {
-            FuelTimer = 0;
-            Fuel--;
-        }
     }
 
     void CheckRotation()
@@ -100,13 +103,43 @@ public class PlayerController : MonoBehaviour
         transform.eulerAngles = EulerRotation;
     }
 
+    bool IsRotationCorrect()
+    {
+        int fullAngle = 360;
+        float zRotation = transform.eulerAngles.z;
+        bool correctLeftRot = zRotation < LandingRotationLimit || zRotation > fullAngle / 2;
+        bool correctRightRot = zRotation > fullAngle - LandingRotationLimit && zRotation < fullAngle;
+
+        return correctLeftRot || correctRightRot;
+    }
+
+    bool IsSpeedCorect()
+    {
+        if (VerticalSpeed > -MaxVerticalSpeedOnLanding &&
+            HorizontalSpeed < MaxHorizontalSpeedOnLanding &&
+            HorizontalSpeed > -MaxHorizontalSpeedOnLanding)
+            return true;
+        else
+            return false;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up, RayDistance,RaycastLayer);
-        if(hit)
+        Bounds spriteBounds = GetComponent<Collider2D>().bounds;
+        Vector3 pos = transform.position;
+
+        Vector3 downVector = -transform.up;
+        Vector2 leftRayPos = new Vector3(spriteBounds.min.x, pos.y);
+        Vector2 rightRayPos = new Vector3(spriteBounds.max.x, pos.y);
+
+        RaycastHit2D hitMiddle = Physics2D.Raycast(pos, downVector, RayDistance, RaycastLayer);
+        RaycastHit2D hitLeft = Physics2D.Raycast(leftRayPos, downVector, RayDistance, RaycastLayer);
+        RaycastHit2D hitRight = Physics2D.Raycast(rightRayPos, downVector, RayDistance, RaycastLayer);
+
+        if(hitLeft && hitMiddle && hitRight)
         {
-            if (transform.eulerAngles.z < LandingRotationLimit && transform.eulerAngles.z > -LandingRotationLimit)
-                Debug.Log(hit.transform.name);
+            if (IsRotationCorrect() && IsSpeedCorect())
+                Debug.Log(hitMiddle.transform.name);
             else
                 Debug.Log("Lose");
         }

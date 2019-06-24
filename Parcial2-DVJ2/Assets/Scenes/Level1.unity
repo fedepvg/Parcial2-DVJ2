@@ -261,7 +261,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Score
+  m_Text: 'Score: 0'
 --- !u!222 &211288974
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5221,9 +5221,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Horizontal Speed
-
-'
+  m_Text: 'Horizontal Speed: 0'
 --- !u!222 &501579880
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10275,6 +10273,8 @@ MonoBehaviour:
   RaycastLayer:
     serializedVersion: 2
     m_Bits: 256
+  MaxVerticalSpeedOnLanding: 15
+  MaxHorizontalSpeedOnLanding: 7
   MaxFuel: 1000
   Fuel: 0
   Altitude: 0
@@ -10351,7 +10351,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Vertical Speed
+  m_Text: 'Vertical Speed: 0'
 --- !u!222 &1530770616
 CanvasRenderer:
   m_ObjectHideFlags: 0
