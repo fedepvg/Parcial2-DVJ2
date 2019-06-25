@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public delegate void FinishLevelAction(PlayerController player);
+    public static FinishLevelAction OnFinishedLevel;
+    public bool Dead;
+
     const float MaxLeftRotation = 90;
     const float MaxRightRotation = 270;
     const float HalfRotation = 180;
@@ -42,6 +46,7 @@ public class PlayerController : MonoBehaviour
         MinHeight = Terrain.MinHeight;
         FuelTimer = 0;
         Fuel = MaxFuel;
+        Dead = false;
     }
 
     private void FixedUpdate()
@@ -123,6 +128,12 @@ public class PlayerController : MonoBehaviour
             return false;
     }
 
+    void FinishLevel()
+    {
+        if (OnFinishedLevel != null)
+            OnFinishedLevel(this);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Bounds spriteBounds = GetComponent<Collider2D>().bounds;
@@ -139,13 +150,22 @@ public class PlayerController : MonoBehaviour
         if(hitLeft && hitMiddle && hitRight)
         {
             if (IsRotationCorrect() && IsSpeedCorect())
-                Debug.Log(hitMiddle.transform.name);
+            {
+                Dead = false;
+                FinishLevel();
+            }
             else
-                Debug.Log("Lose");
+            {
+                Dead = true;
+                FinishLevel();
+            }
         }
         else
         {
-            Debug.Log("Lose");
+            Dead = true;
+            FinishLevel();
         }
+        if (Dead)
+            gameObject.SetActive(false);
     }
 }

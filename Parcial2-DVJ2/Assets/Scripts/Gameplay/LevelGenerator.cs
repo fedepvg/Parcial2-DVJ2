@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelGenerator : MonoBehaviour
 {
     Bounds LevelBounds;
-    const int LevelDistance = 100;
+    float LevelDistance;
     LineRenderer LineRend;
     EdgeCollider2D EdgeCollider;
     
@@ -40,6 +40,7 @@ public class LevelGenerator : MonoBehaviour
         LineRend.positionCount = 1;
         Points.Add(GetFirstPoint());
         LineRend.SetPosition(PointCount, Points[PointCount]);
+        LevelDistance = LevelBounds.size.x;
         GenerateLevel();
     }
 
