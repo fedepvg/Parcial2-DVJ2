@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public float HorizontalSpeed;
 
     public LevelGenerator Terrain;
+    Bounds LevelBounds;
 
     float MinHeight;
     float FuelTimer;
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviour
         FuelTimer = 0;
         Fuel = MaxFuel;
         Dead = false;
+        LevelBounds = CameraUtils.OrthographicBounds();
     }
 
     private void FixedUpdate()
@@ -100,6 +102,27 @@ public class PlayerController : MonoBehaviour
         HorizontalSpeed *= 100;
 
         CheckTerrainDistance();
+        CheckLevelBounds();
+    }
+
+    void CheckLevelBounds()
+    {
+        Vector3 pos = transform.position;
+        Vector2 playerVelocity = PlayerRigidody.velocity;
+        float playerHalfSize = GetComponent<Collider2D>().bounds.extents.x;
+        
+        if(pos.x <= LevelBounds.min.x || pos.x >= LevelBounds.max.x)
+        {
+            pos.x = LevelBounds.min.x;
+            playerVelocity = new Vector2(0f, playerVelocity.y);
+        }
+        else if(pos.y >= LevelBounds.max.y)
+        {
+            pos.y = LevelBounds.max.y;
+            playerVelocity = new Vector2(playerVelocity.x, 0f);
+        }
+        PlayerRigidody.velocity = playerVelocity;
+        transform.position = pos;
     }
 
     void CheckTerrainDistance()
