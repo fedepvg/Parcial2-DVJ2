@@ -6,6 +6,13 @@ public class PlayerController : MonoBehaviour
 {
     public delegate void FinishLevelAction(PlayerController player);
     public static FinishLevelAction OnFinishedLevel;
+
+    public delegate void CloseToTerrainAction(Transform player);
+    public static CloseToTerrainAction OnCloseToTerrain;
+
+    public delegate void FarFromTerrainAction();
+    public static FarFromTerrainAction OnFarFromTerrain;
+
     public bool Dead;
 
     const float MaxLeftRotation = 90;
@@ -36,6 +43,8 @@ public class PlayerController : MonoBehaviour
     float MinHeight;
     float FuelTimer;
     float TimeToLoseFuel = 0.1f;
+
+    float ZoomRayDistance = 1.5f;
 
     private void Start()
     {
@@ -83,13 +92,35 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Debug.DrawRay(transform.position, -transform.up * RayDistance);
         Altitude = transform.position.y - MinHeight;
         VerticalSpeed = PlayerRigidody.velocity.y;
         HorizontalSpeed = PlayerRigidody.velocity.x;
         Altitude *= 100;
         VerticalSpeed *= 100;
         HorizontalSpeed *= 100;
+
+        CheckTerrainDistance();
+    }
+
+    void CheckTerrainDistance()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.down, ZoomRayDistance, RaycastLayer);
+        if (hit)
+            ActivateZoomCamera();
+        else
+            DeactivateZoomCamera();
+    }
+
+    void ActivateZoomCamera()
+    {
+        if (OnCloseToTerrain != null)
+            OnCloseToTerrain(transform);
+    }
+
+    void DeactivateZoomCamera()
+    {
+        if (OnFarFromTerrain != null)
+            OnFarFromTerrain();
     }
 
     void CheckRotation()
