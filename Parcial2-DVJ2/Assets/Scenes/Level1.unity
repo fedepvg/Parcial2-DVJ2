@@ -11240,7 +11240,7 @@ MonoBehaviour:
     m_Bits: 256
   MaxVerticalSpeedOnLanding: 15
   MaxHorizontalSpeedOnLanding: 7
-  MaxFuel: 1000
+  MaxFuel: 300
   Fuel: 0
   Altitude: 0
   VerticalSpeed: 0

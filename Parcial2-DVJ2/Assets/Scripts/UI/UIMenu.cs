@@ -14,7 +14,8 @@ public class UIMenu : MonoBehaviour
 
     private GameObject CurrentPanel;
     public GameObject MenuPanel;
-    public GameObject SplashPanel;
+    public GameObject CompanySplashPanel;
+    public GameObject GameSplashPanel;
 
     private void Start()
     {
