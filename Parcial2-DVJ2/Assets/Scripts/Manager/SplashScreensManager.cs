@@ -38,7 +38,6 @@ public class SplashScreensManager : MonoBehaviour
             t -= Time.deltaTime;
             color.a = t;
             mat.color = color;
-            Debug.Log(t);
             if (t <= 0)
             {
                 g.SetActive(false);
