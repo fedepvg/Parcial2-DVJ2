@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     public void GoToMenu()
     {
+        InitializeStats();
         SceneManager.LoadScene("MenuScene");
     }
 

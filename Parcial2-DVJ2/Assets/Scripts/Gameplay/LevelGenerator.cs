@@ -40,7 +40,7 @@ public class LevelGenerator : MonoBehaviour
         LineRend.positionCount = 1;
         Points.Add(GetFirstPoint());
         LineRend.SetPosition(PointCount, Points[PointCount]);
-        LevelDistance = LevelBounds.size.x;
+        LevelDistance = LevelBounds.size.x * 2;
         GenerateLevel();
     }
 
@@ -110,7 +110,7 @@ public class LevelGenerator : MonoBehaviour
 
     Vector2 GetFirstPoint()
     {
-        XPosition = CameraUtils.OrthographicBounds().min.x;
+        XPosition = LevelBounds.min.x - LevelBounds.extents.x;
         float randHeight = Random.Range(MinHeight, MaxHeight);
         return new Vector2(XPosition, randHeight);
     }

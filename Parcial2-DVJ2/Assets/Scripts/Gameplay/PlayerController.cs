@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
         Fuel = MaxFuel;
         Dead = false;
         LevelBounds = CameraUtils.OrthographicBounds();
+        PlayerRigidody.AddRelativeForce(Vector2.right, ForceMode2D.Impulse);
     }
 
     private void FixedUpdate()
@@ -113,7 +114,7 @@ public class PlayerController : MonoBehaviour
         
         if(pos.x <= LevelBounds.min.x || pos.x >= LevelBounds.max.x)
         {
-            pos.x = LevelBounds.min.x;
+            pos.x = Mathf.Clamp(pos.x, LevelBounds.min.x, LevelBounds.max.x);
             playerVelocity = new Vector2(0f, playerVelocity.y);
         }
         else if(pos.y >= LevelBounds.max.y)
@@ -186,6 +187,8 @@ public class PlayerController : MonoBehaviour
     {
         if (OnFinishedLevel != null)
             OnFinishedLevel(this);
+        Particles.Stop();
+        Destroy(this);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

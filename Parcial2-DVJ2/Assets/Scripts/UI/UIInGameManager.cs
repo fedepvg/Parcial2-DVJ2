@@ -92,11 +92,13 @@ public class UIInGameManager : MonoBehaviour
         if (!player.Dead)
         {
             RestartButton.SetActive(false);
+            ContinueButton.SetActive(true);
             Result.text = "You Won";
         }
         else
         {
             ContinueButton.SetActive(false);
+            RestartButton.SetActive(true);
             Result.text = "Game Over";
         }
         ResultScore.text = Score.text;
