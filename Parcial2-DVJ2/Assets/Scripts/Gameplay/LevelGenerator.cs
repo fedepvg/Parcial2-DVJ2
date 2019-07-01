@@ -63,7 +63,8 @@ public class LevelGenerator : MonoBehaviour
 
         if (!IsLandingPlatform())
         {
-            float randY = Random.Range(MinYAddition, MaxYAddition) * SignMultiplier();
+            int sign = (int)Mathf.Sign(Random.Range(-1, 1));
+            float randY = Random.Range(MinYAddition, MaxYAddition) * sign;
             YPosition += randY;
             YPosition = Mathf.Clamp(YPosition,MinHeight, MaxHeight);
             if(PrevYPosition == YPosition)
@@ -76,16 +77,6 @@ public class LevelGenerator : MonoBehaviour
         newPoint = new Vector2(XPosition, YPosition);
 
         return newPoint;
-    }
-
-    int SignMultiplier()
-    {
-        int sign = Random.Range(0, 2);
-        if(sign==0)
-        {
-            return -1;
-        }
-        return 1;
     }
 
     bool IsLandingPlatform()
