@@ -12,10 +12,30 @@ public class UIMenu : MonoBehaviour
     public delegate void OnQuitGameAction();
     public static OnQuitGameAction OnQuitGame;
 
+    public delegate void OnRegisterAction();
+    public static OnRegisterAction OnRegister;
+
+    public delegate void OnLogInAction();
+    public static OnLogInAction OnLogIn;
+
+    public delegate void OnLoadGameDataAction();
+    public static OnLoadGameDataAction OnLoadGameData;
+
+    public delegate void OnSaveGameDataAction();
+    public static OnSaveGameDataAction OnSaveGameData;
+
     private GameObject CurrentPanel;
     public GameObject MenuPanel;
-    public GameObject CompanySplashPanel;
-    public GameObject GameSplashPanel;
+
+    public InputField UserRegister;
+    public InputField PassRegister;
+    public InputField UserLogIn;
+    public InputField PassLogIn;
+    public InputField NameInput;
+    public InputField SurnameInput;
+    public Text NameText;
+    public Text SurnameText;
+    public Text Score;
 
     private void Start()
     {
