@@ -44,6 +44,25 @@ public class UIMenu : MonoBehaviour
         CurrentPanel = MenuPanel;
     }
 
+    private void Update()
+    {
+
+        UserManager um = UserManager.Instance;
+
+        if (um.id != null)
+        {
+            NameText.text = um.userData.Name;
+            SurnameText.text = um.userData.Surname;
+            Score.text = um.userData.Score;
+        }
+        else
+        {
+            NameText.text = "";
+            SurnameText.text = "";
+            Score.text = "0";
+        }
+    }
+
     public void DeactivateCurrentPanel()
     {
         CurrentPanel.SetActive(false);
@@ -92,6 +111,9 @@ public class UIMenu : MonoBehaviour
     {
         if (OnLoadGameData != null)
             OnLoadGameData();
+
+        NameInput.text = "";
+        SurnameInput.text = "";
     }
 
     public void SaveGameData()

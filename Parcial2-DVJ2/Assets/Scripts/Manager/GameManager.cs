@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
         if (Score < 0)
             Score = 0;
+
+        UserManager.Instance.SaveScore();
     }
 
     void InitializeStats()
