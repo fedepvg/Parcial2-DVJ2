@@ -12,16 +12,16 @@ public class UIMenu : MonoBehaviour
     public delegate void OnQuitGameAction();
     public static OnQuitGameAction OnQuitGame;
 
-    public delegate void OnRegisterAction();
+    public delegate void OnRegisterAction(string user, string pass);
     public static OnRegisterAction OnRegister;
 
-    public delegate void OnLogInAction();
+    public delegate void OnLogInAction(string user, string pass);
     public static OnLogInAction OnLogIn;
 
     public delegate void OnLoadGameDataAction();
     public static OnLoadGameDataAction OnLoadGameData;
 
-    public delegate void OnSaveGameDataAction();
+    public delegate void OnSaveGameDataAction(string name, string surname);
     public static OnSaveGameDataAction OnSaveGameData;
 
     private GameObject CurrentPanel;
@@ -36,6 +36,8 @@ public class UIMenu : MonoBehaviour
     public Text NameText;
     public Text SurnameText;
     public Text Score;
+
+    public Text Result;
 
     private void Start()
     {
@@ -63,5 +65,38 @@ public class UIMenu : MonoBehaviour
     {
         if (OnQuitGame != null)
             OnQuitGame();
+    }
+
+    public void RegisterUser()
+    {
+        if (UserRegister.text != "" && PassRegister.text != "")
+        {
+            if (OnRegister != null)
+                OnRegister(UserRegister.text, PassRegister.text);
+        }
+        else
+        {
+            Result.gameObject.SetActive(true);
+        }
+        PassRegister.text = "";
+    }
+
+    public void LogInUser()
+    {
+        if (OnLogIn != null)
+            OnLogIn(UserLogIn.text, PassLogIn.text);
+        PassLogIn.text = "";
+    }
+
+    public void LoadGameData()
+    {
+        if (OnLoadGameData != null)
+            OnLoadGameData();
+    }
+
+    public void SaveGameData()
+    {
+        if (OnSaveGameData != null)
+            OnSaveGameData(NameInput.text, SurnameInput.text);
     }
 }
